@@ -6,12 +6,16 @@ import "./style.scss";
 const EventCard = ({
   imageSrc,
   imageAlt,
-  date = new Date(),
+  date ,
   title,
   label,
   small = false,
   ...props
-}) => (
+}) => {
+ //  const month = getMonth(date); Récupérer le mois en utilisant la fonction getMonth
+  console.log(""); // Log du mois
+ return (
+  
     <div
       data-testid="card-testid"
       className={`EventCard${small ? " EventCard--small" : ""}`}
@@ -27,12 +31,13 @@ const EventCard = ({
       </div>
     </div>
   );
+ };
 
 EventCard.propTypes = {
   imageSrc: PropTypes.string.isRequired,
   imageAlt: PropTypes.string,
   date: PropTypes.instanceOf(Date).isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   small: PropTypes.bool,
   label: PropTypes.string.isRequired,
 };
@@ -40,6 +45,7 @@ EventCard.propTypes = {
 EventCard.defaultProps = {
   imageAlt: "image",
   small: false,
+  title:"",
 }
 
 export default EventCard;

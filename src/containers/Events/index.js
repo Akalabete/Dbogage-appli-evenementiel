@@ -13,33 +13,22 @@ const EventList = () => {
   const { data, error } = useData();
   const [type, setType] = useState("Toutes");
   const [currentPage, setCurrentPage] = useState(1);
-  const typeList = new Set(data?.events.map((event) => event.type));
-  const filteredEvents = data?.events.filter((event, index) => {
-    if (
-      (currentPage - 1) * PER_PAGE <= index &&
-      PER_PAGE * currentPage > index
-    ) {
-      if (!type) {
-        return true; 
-        }
-      return event.type.toLowerCase() === type.toLowerCase(); 
-      }
-    return false;
-    
-  });
-
-  const filteredEventsByType = data?.events.filter((event) => {    
-    if (type === null || event.type === type) {
-      return true;
-    }
-    return false;
-  });
-
+  const typeList = Array.from(new Set(data?.events.map((event) => event.type)));
+typeList.unshift("Toutes");
+  
+const filteredEvents = data?.events.filter((event) => {
+  const isTypeMatched = type === "Toutes" || event.type.toLowerCase() === type.toLowerCase();
+  return isTypeMatched;
+});
+function getEventsForPage(events, perPage) {
+  const startIndex = (currentPage - 1) * perPage;
+  return events.slice(startIndex, startIndex + perPage);
+}
+const eventsToDisplay = getEventsForPage(filteredEvents, PER_PAGE);
 
   const changeType = (evtType) => {
     setCurrentPage(1);
-    setType(evtType ? evtType.toLowerCase() : null);
-    
+    setType(evtType ? evtType.toLowerCase() : "Toutes");
   };
   const pageNumber = Math.floor((filteredEvents?.length || 0) / PER_PAGE) + 1;
 
@@ -53,7 +42,7 @@ const EventList = () => {
         <>
           <h3 className="SelectTitle">Catégories</h3>
           <Select
-            selection={[...Array.from(typeList)]}
+            selection={typeList}
             onChange={(value) => {
               if(value === "Toutes") {
                 changeType(null);
@@ -64,10 +53,11 @@ const EventList = () => {
             }
         />
           <div id="events" className="ListContainer">
-            {filteredEventsByType.map((event) => (
+            {eventsToDisplay.map((event) => (
               <Modal key={event.id} Content={<ModalEvent event={event} />}>
                 {({ setIsOpened }) => (
                   <EventCard
+                    key={event.id}
                     onClick={() => setIsOpened(true)}
                     imageSrc={event.cover}
                     title={event.title}

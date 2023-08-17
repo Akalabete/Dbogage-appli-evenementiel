@@ -11,9 +11,9 @@ const Select = ({
   name,
   titleEmpty,
   label,
-  type = "normal",
+  type = "Toutes",
 }) => {
-  const [value, setValue] = useState();
+  const [value, setValue] = useState("Toutes");
   const [collapsed, setCollapsed] = useState(true);
   const changeValue = (newValue) => {
     onChange(newValue);
@@ -26,17 +26,18 @@ const Select = ({
       <div className="Select">
         <ul>
           <li className={collapsed ? "SelectTitle--show" : "SelectTitle--hide"}>
-            {value ||"Toutes"}
+            {value || "Toutes"}
           </li>
           {!collapsed && (
             <>
-              {!titleEmpty && (
-                <li onClick={() => changeValue(null)}>
-                  <input defaultChecked={!value} name="selected" type="radio" />{" "}
+              {!titleEmpty  && (
+                <li onClick={() => changeValue("Toutes")}>
+                  <input defaultChecked={value === "Toutes"} name="selected" type="radio" />{" "}
                   Toutes
                 </li>
               )}
               {selection.map((s) => (
+                s !== "Toutes" && (
                 <li key={s} onClick={() => changeValue(s)}>
                   <input
                     defaultChecked={value === s}
@@ -45,6 +46,7 @@ const Select = ({
                   />{" "}
                   {s}
                 </li>
+                )
               ))}
             </>
           )}
@@ -94,7 +96,7 @@ Select.defaultProps = {
   onChange: () => null,
   titleEmpty: false,
   label: "",
-  type: "normal",
+  type: "Toutes",
   name: "select",
 }
 
