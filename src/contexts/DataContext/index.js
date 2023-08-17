@@ -27,9 +27,10 @@ export const DataProvider = ({ children }) => {
     }
   }, []);
   useEffect(() => {
-    if (data) return;
+    if (!data){
     getData();
-  });
+    }
+  }, []);
   
   return (
     <DataContext.Provider

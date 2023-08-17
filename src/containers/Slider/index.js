@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useData } from "../../contexts/DataContext";
+import { useData, api } from "../../contexts/DataContext";
 import { getMonth } from "../../helpers/Date";
 
 import "./style.scss";
@@ -7,19 +7,41 @@ import "./style.scss";
 const Slider = () => {
   const { data } = useData();
   const [index, setIndex] = useState(0);
-  const byDateDesc = data?.focus.sort((evtA, evtB) =>
-    new Date(evtA.date) < new Date(evtB.date) ? -1 : 1
-  );
-  const nextCard = () => {
-    setTimeout(
-      () => setIndex(index < (byDateDesc.length -1)  ? index + 1 : 0),
-      5000
-    );
+  const [byDateDesc, setByDateDesc] = useState([]);
+
+  const loadData = async () => {
+    try {
+      const loadedData = await api.loadData();
+      const sortedData = loadedData.focus.sort((evtA, evtB) =>
+        new Date(evtA.date) < new Date(evtB.date) ? -1 : 1
+        );
+      setByDateDesc(sortedData);
+    } catch (err) {
+      // Handle error
+    }
   };
+  
+  const nextCard = () => {
+    setIndex((prevIndex) => (prevIndex < byDateDesc.length - 1 ? prevIndex + 1 : 0));
+  };
+
   useEffect(() => {
-    nextCard();
-    
-  });
+    if (!data) {
+      loadData();
+    } else {
+      setByDateDesc(data.focus);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    const interval = setInterval(nextCard, 5000);
+
+    return () => clearInterval(interval);
+  }, [byDateDesc]);
+
+  if (!byDateDesc.length) {
+    return null; 
+  }
   return (
     <div className="SlideCardList">
       {byDateDesc?.map((event, idx) => (

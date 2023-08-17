@@ -11,27 +11,39 @@ const PER_PAGE = 9;
 
 const EventList = () => {
   const { data, error } = useData();
-  const [type, setType] = useState();
+  const [type, setType] = useState("Toutes");
   const [currentPage, setCurrentPage] = useState(1);
-  const filteredEvents = (
-    (!type
-      ? data?.events
-      : data?.events) || []
-  ).filter((event, index) => {
+  const typeList = new Set(data?.events.map((event) => event.type));
+  const filteredEvents = data?.events.filter((event, index) => {
     if (
       (currentPage - 1) * PER_PAGE <= index &&
       PER_PAGE * currentPage > index
     ) {
+      if (!type) {
+        return true; 
+        }
+      return event.type.toLowerCase() === type.toLowerCase(); 
+      }
+    return false;
+    
+  });
+
+  const filteredEventsByType = data?.events.filter((event) => {    
+    if (type === null || event.type === type) {
       return true;
     }
     return false;
   });
+
+
   const changeType = (evtType) => {
     setCurrentPage(1);
-    setType(evtType);
+    setType(evtType ? evtType.toLowerCase() : null);
+    
   };
   const pageNumber = Math.floor((filteredEvents?.length || 0) / PER_PAGE) + 1;
-  const typeList = new Set(data?.events.map((event) => event.type));
+
+  
   return (
     <>
       {error && <div>An error occured</div>}
@@ -41,11 +53,18 @@ const EventList = () => {
         <>
           <h3 className="SelectTitle">Catégories</h3>
           <Select
-            selection={Array.from(typeList)}
-            onChange={(value) => (value ? changeType(value) : changeType(null))}
-          />
+            selection={[...Array.from(typeList)]}
+            onChange={(value) => {
+              if(value === "Toutes") {
+                changeType(null);
+                }else{
+                changeType(value);
+                }
+              }
+            }
+        />
           <div id="events" className="ListContainer">
-            {filteredEvents.map((event) => (
+            {filteredEventsByType.map((event) => (
               <Modal key={event.id} Content={<ModalEvent event={event} />}>
                 {({ setIsOpened }) => (
                   <EventCard
