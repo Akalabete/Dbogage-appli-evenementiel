@@ -12,8 +12,8 @@ const EventCard = ({
   small = false,
   ...props
 }) => {
- //  const month = getMonth(date); Récupérer le mois en utilisant la fonction getMonth
-  console.log(""); // Log du mois
+  const month = getMonth(date); 
+  console.log(month);
  return (
   
     <div

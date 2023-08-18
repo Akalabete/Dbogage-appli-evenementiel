@@ -13,14 +13,16 @@ const EventList = () => {
   const { data, error } = useData();
   const [type, setType] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [filteredEvents, setFilteredEvents] = useState([]);
-
+  const [filteredEvents, setFilteredEvents] = useState(data?.events || []);
   useEffect(() => {
-    const filtered = data?.events.filter(event =>
-      !type || event.type === type
-    );
-    setFilteredEvents(filtered);
-    setCurrentPage(1);
+    if (data) {
+      const filtered = data.events.filter(event =>
+        !type || event.type === type
+      );
+  
+      setFilteredEvents(filtered);
+      setCurrentPage(1);
+    }
   }, [data, type]);
 
   const changeType = (evtType) => {
