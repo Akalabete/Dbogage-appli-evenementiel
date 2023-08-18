@@ -6,32 +6,27 @@ import "./style.scss";
 const EventCard = ({
   imageSrc,
   imageAlt,
-  date ,
+  date,
   title,
   label,
   small = false,
   ...props
-}) => {
-  const month = getMonth(date); 
-  console.log(month);
- return (
-  
-    <div
-      data-testid="card-testid"
-      className={`EventCard${small ? " EventCard--small" : ""}`}
-      {...props}
-    >
-      <div className="EventCard__imageContainer">
-        <img data-testid="card-image-testid" src={imageSrc} alt={imageAlt} />
-        <div className="EventCard__label">{label}</div>
-      </div>
-      <div className="EventCard__descriptionContainer">
-        <div className="EventCard__title">{title}</div>
-        <div className="EventCard__month">{getMonth(date)}</div>
-      </div>
+}) => (
+  <div
+    data-testid="card-testid"
+    className={`EventCard${small ? " EventCard--small" : ""}`}
+    {...props}
+  >
+    <div className="EventCard__imageContainer">
+      <img data-testid="card-image-testid" src={imageSrc} alt={imageAlt} />
+      <div className="EventCard__label">{label}</div>
     </div>
-  );
- };
+    <div className="EventCard__descriptionContainer">
+      <div className="EventCard__title">{title}</div>
+      <div className="EventCard__month">{getMonth(date)}</div>
+    </div>
+  </div>
+);
 
 EventCard.propTypes = {
   imageSrc: PropTypes.string.isRequired,
@@ -45,7 +40,7 @@ EventCard.propTypes = {
 EventCard.defaultProps = {
   imageAlt: "image",
   small: false,
-  title:"",
-}
+  title: "",
+};
 
 export default EventCard;
