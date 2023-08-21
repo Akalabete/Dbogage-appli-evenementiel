@@ -13,7 +13,7 @@ const Select = ({
   label,
   type = "Toutes",
 }) => {
-  const [value, setValue] = useState("Toutes");
+  const [value, setValue] = useState(titleEmpty ?selection[0]:"Toutes");
   const [collapsed, setCollapsed] = useState(true);
   const changeValue = (newValue) => {
     onChange(newValue);
