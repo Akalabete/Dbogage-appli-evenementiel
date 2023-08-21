@@ -1,8 +1,8 @@
+import { useState } from "react";
 import Menu from "../../containers/Menu";
 import ServiceCard from "../../components/ServiceCard";
 import EventCard from "../../components/EventCard";
 import PeopleCard from "../../components/PeopleCard";
-
 import "./style.scss";
 import EventList from "../../containers/Events";
 import Slider from "../../containers/Slider";
@@ -13,7 +13,9 @@ import Modal from "../../containers/Modal";
 import { useData } from "../../contexts/DataContext";
 
 const Page = () => {
+  const[modalOpen, setModalOpen] = useState(false);
   const {last} = useData()
+  console.log(modalOpen);
   return <>
     <header>
       <Menu />
@@ -103,11 +105,13 @@ const Page = () => {
               </p>
             </div>
           }
+          isOpen={modalOpen}
+          onrequestClose={()=> setModalOpen(false)}
         >
           {({ setIsOpened }) => (
             <Form
               onSuccess={() => setIsOpened(true)}
-              onError={() => null}
+              onError={() => setIsOpened(true)}
             />
           )}
         </Modal>
