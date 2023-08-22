@@ -132,6 +132,7 @@ const Page = () => {
       </section>
       <div className="FormContainer" id="contact">
         <h2 className="Title">Contact</h2>
+        {modalContent && (
         <Modal
           Content={modalContent}
           isOpen={modalOpen}
@@ -154,6 +155,7 @@ const Page = () => {
             />
           )}
         </Modal>
+        )}
       </div>
     </main>
     <footer className="row">
