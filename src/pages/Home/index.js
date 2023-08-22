@@ -13,9 +13,38 @@ import Modal from "../../containers/Modal";
 import { useData } from "../../contexts/DataContext";
 
 const Page = () => {
-  const[modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [resetForm, setResetForm] = useState(false);
+  let modalContent = null;
+
+  if (modalMessage === "success") {
+    modalContent = (
+      <div className="ModalMessage--success">
+        <div>Message envoyé !</div>
+        <p>
+          Merci pour votre message nous tâcherons de vous répondre dans
+          les plus brefs délais
+        </p>
+      </div>
+    );
+  } else if (modalMessage === "requiredFields") {
+    modalContent = (
+      <div className="ModalMessage--error">
+        <div>Erreur !</div>
+        <p>Merci de renseigner tous les champs.</p>
+      </div>
+    );
+  } else if (modalMessage === "error") {
+    modalContent = (
+      <div className="ModalMessage--error">
+        <div>Erreur !</div>
+        <p>Une erreur s&aposest produite lors de l&aposenvoi du message.</p>
+      </div>
+    );
+  }
+
   const {last} = useData()
-  console.log(modalOpen);
   return <>
     <header>
       <Menu />
@@ -96,22 +125,24 @@ const Page = () => {
       <div className="FormContainer" id="contact">
         <h2 className="Title">Contact</h2>
         <Modal
-          Content={
-            <div className="ModalMessage--success">
-              <div>Message envoyé !</div>
-              <p>
-                Merci pour votre message nous tâcherons de vous répondre dans
-                les plus brefs délais
-              </p>
-            </div>
-          }
+          Content={modalContent}
           isOpen={modalOpen}
-          onrequestClose={()=> setModalOpen(false)}
+          onRequestClose={() => {
+            setModalOpen(false);
+          }}
         >
           {({ setIsOpened }) => (
             <Form
-              onSuccess={() => setIsOpened(true)}
-              onError={() => setIsOpened(true)}
+              onSuccess={() => {
+                setModalMessage("success");
+                setIsOpened(true);
+                setResetForm(true);
+              }}
+              onError={(message) => {
+                setModalMessage(message);
+                setIsOpened(true);
+              }}
+              resetForm={resetForm}
             />
           )}
         </Modal>
