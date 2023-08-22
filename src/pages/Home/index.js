@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useData } from "../../contexts/DataContext";
 import Menu from "../../containers/Menu";
 import ServiceCard from "../../components/ServiceCard";
 import EventCard from "../../components/EventCard";
@@ -10,7 +11,7 @@ import Logo from "../../components/Logo";
 import Icon from "../../components/Icon";
 import Form from "../../containers/Form";
 import Modal from "../../containers/Modal";
-import { useData } from "../../contexts/DataContext";
+
 
 const Page = () => {
   const [modalMessage, setModalMessage] = useState("");
@@ -43,8 +44,15 @@ const Page = () => {
       </div>
     );
   }
+  const { data } = useData();
+ 
+  const last= data?.events?.sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+ 
 
-  const {last} = useData()
+
+
+  
+ 
   return <>
     <header>
       <Menu />
@@ -154,9 +162,9 @@ const Page = () => {
         <EventCard
           imageSrc={last?.cover}
           title={last?.title}
-          date={new Date(last?.date)}
+          date={last?.date ? new Date(last.date) : new Date()}
           small
-          label="boom"
+          label={last?.type}
         />
       </div>
       <div className="col contact">

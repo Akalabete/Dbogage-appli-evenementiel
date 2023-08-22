@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 
+
 const DataContext = createContext({});
 
 export const api = {
@@ -31,7 +32,7 @@ export const DataProvider = ({ children }) => {
     getData();
     }
   }, []);
-  
+
   return (
     <DataContext.Provider
       // eslint-disable-next-line react/jsx-no-constructed-context-values
