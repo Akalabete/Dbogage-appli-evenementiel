@@ -23,6 +23,7 @@ const Form = ({ onSuccess, onError, resetForm }) => {
     }));
   };
   useEffect(() => {
+    console.log(resetForm)
     if (resetForm) {
       setFields({
         nom: "",
@@ -57,7 +58,7 @@ const Form = ({ onSuccess, onError, resetForm }) => {
     },
     [onSuccess, onError, fields]
     
-  );
+  );console.log(fields)
   return (
     <form onSubmit={sendContact}>
       <div className="row">
