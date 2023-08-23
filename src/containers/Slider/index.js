@@ -31,7 +31,7 @@ const Slider = () => {
     } else {
       setByDateDesc(data.focus);
     }
-  }, [data]);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(nextCard, 5000);
@@ -41,13 +41,13 @@ const Slider = () => {
 
   if (!byDateDesc.length) {
     return null; 
-  }
+  } 
   return (
     <div className="SlideCardList">
       {byDateDesc?.map((event, idx) => (
-        <>
+        <div key={event.date}>
           <div
-            key={event.id}
+            
             className={`SlideCard SlideCard--${
               index === idx ? "display" : "hide"
             }`}
@@ -76,7 +76,7 @@ const Slider = () => {
               ))}
             </div>
           </div>
-        </>
+        </div>
       ))}
     </div>
   );
