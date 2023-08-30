@@ -23,7 +23,7 @@ const Form = ({ onSuccess, onError, resetForm }) => {
     }));
   };
   useEffect(() => {
-    console.log(resetForm)
+    
     if (resetForm) {
       setFields({
         nom: "",
@@ -58,7 +58,7 @@ const Form = ({ onSuccess, onError, resetForm }) => {
     },
     [onSuccess, onError, fields]
     
-  );console.log(fields)
+  );
   return (
     <form onSubmit={sendContact}>
       <div className="row">
@@ -73,13 +73,15 @@ const Form = ({ onSuccess, onError, resetForm }) => {
             titleEmpty
           />
           <Field placeholder="" label="Email" value={fields.email} onChange={(value) => handleFieldChange("email", value)} />
-          <Button type={BUTTON_TYPES.SUBMIT} disabled={sending}>
+          <Button type={BUTTON_TYPES.SUBMIT}
+           disabled={sending}
+           data-testid="button-test-id">
             {sending ? "En cours" : "Envoyer"}
           </Button>
         </div>
         <div className="col">
           <Field
-            placeholder="message"
+            placeholder=""
             label="Message"
             type={FIELD_TYPES.TEXTAREA}
             value={fields.message}

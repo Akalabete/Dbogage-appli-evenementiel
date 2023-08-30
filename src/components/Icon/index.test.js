@@ -6,12 +6,25 @@ describe("Icon component", () => {
     describe("When a icon is created with name twitch", () => {
         it("the icon contain this path hash value 327fbc38c8e878259c3ec35ef231517a", () => {
             render(<Icon name="twitch" />)
-            expect(md5(screen.getByTestId("icon").getAttribute('d'))).toEqual('327fbc38c8e878259c3ec35ef231517a')
+            expect(md5(screen.getByTestId("icon-twitch").getAttribute('d'))).toEqual('327fbc38c8e878259c3ec35ef231517a')
         });
     });
     describe("When a icon is created with name facebook", () => {
         it("the icon contain this path hash value bbea4c9e40773b969fdb6e406059f853", () => {
-            // to complete
+            render(<Icon name="facebook" />)
+            expect(md5(screen.getByTestId("icon-facebook").getAttribute('d'))).toEqual('bbea4c9e40773b969fdb6e406059f853')
+        });
+    });
+    describe("When a icon is created with name youtube", () => {
+        it("the icon not contain this path hash value bbea4c9e40773b969fdb6e406059f853", () => {
+            render(<Icon name="youtube" />)
+            expect(md5(screen.getByTestId("icon-youtube-1").getAttribute('d'))).not.toEqual('bbea4c9e40773b969fdb6e406059f853')
+        });
+    });
+    describe("When a icon is created with name twitter", () => {
+        it("the icon not contain this path hash value bbea4c9e40773b969fdb6e406059f853", () => {
+            render(<Icon name="twitter" />)
+            expect(md5(screen.getByTestId("icon-twitter").getAttribute('d'))).not.toEqual('bbea4c9e40773b969fdb6e406059f853')
         });
     });
 })

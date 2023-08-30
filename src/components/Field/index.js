@@ -14,6 +14,7 @@ const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder, value,
       component = (
         <input
           type="text"
+          label={name}
           name={name}
           placeholder={placeholder}
           data-testid="field-testid"
@@ -26,6 +27,7 @@ const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder, value,
         component = (
           <textarea
             name={name}
+            label={name}
             value={value}
             data-testid="field-testid"
             onChange={(e) => onChange(e.target.value)} // Call the provided onChange function here
@@ -36,6 +38,7 @@ const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder, value,
       component = (
         <input
           type="text"
+          label={name}
           name={name}
           value={value}
           placeholder={placeholder}
