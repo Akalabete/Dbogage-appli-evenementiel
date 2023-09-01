@@ -28,11 +28,15 @@ describe("When Form is created", () => {
     waitFor(() => {
       const submitButton = container.querySelector('button[type="submit"]');
       expect(submitButton).toBeInTheDocument();
+      submitButton.innerTextContent = "Envoyer";
       onSubmit.mockImplementation(()=> {
         submitButton.innerTextContent = "En cours";
         submitButton.disabled = true;
         onSuccess();
+        expect(submitButton.innerTextContent).toBe("En cours");
         openSuccessModal("Message envoyé avec succès");
+        submitButton.innerTextContent = "Envoyer";
+        expect(submitButton.innerTextContent).toBe("envoyer");
       });
       
       fireEvent.click(submitButton);

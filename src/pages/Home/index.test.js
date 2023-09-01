@@ -27,11 +27,15 @@ describe("When Form is created", () => {
     waitFor(() => {
       const submitButton = container.querySelector('button[type="submit"]');
       expect(submitButton).toBeInTheDocument();
+      submitButton.innerTextContent = "Envoyer";
       onSubmit.mockImplementation(()=> {
         submitButton.innerTextContent = "En cours";
         submitButton.disabled = true;
         onSuccess();
+        expect(submitButton.innerTextContent).toBe("En cours");
         openSuccessModal("Message envoyé avec succès");
+        submitButton.innerTextContent = "Envoyer";
+        
       });
       
       fireEvent.click(submitButton);
@@ -40,7 +44,7 @@ describe("When Form is created", () => {
       expect(screen.findByText("En cours")).toBeInTheDocument();
       expect(onError).not.toHaveBeenCalled();
       expect(openSuccessModal).toHaveBeenCalledWith("Message envoyé avec succès");
-
+      expect(submitButton.innerTextContent).toBe("Envoyer");
     });
   });
 

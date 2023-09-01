@@ -35,10 +35,11 @@ describe("When slider is created", () => {
         <Slider />
       </DataProvider>
     );
-    await screen.findByText("World economic forum");
+    await screen.findByText("World Farming Day");
     await screen.findByText("janvier");
     await screen.findByText(
-      "Oeuvre à la coopération entre le secteur public et le privé."
+      "Evenement mondial autour de la ferme"
     );
+    
   });
 });
